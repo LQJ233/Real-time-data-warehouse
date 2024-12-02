@@ -89,8 +89,9 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <!--Flink默认使用的是slf4j记录日志，相当于一个日志的接口,我们这里使用log4j作为具体的日志实现-->

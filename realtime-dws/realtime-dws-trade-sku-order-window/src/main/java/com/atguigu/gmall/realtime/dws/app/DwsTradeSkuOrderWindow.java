@@ -31,8 +31,6 @@ import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Felix
- * @date 2024/6/12
  * sku粒度下单业务过程聚合统计
  *      维度：sku
  *      度量：原始金额、优惠券减免金额、活动减免金额、实付金额
@@ -43,7 +41,8 @@ import java.util.concurrent.TimeUnit;
  *      检查点相关的设置
  *      从kafka的下单事实表中读取数据
  *      空消息的处理并将流中数据类型进行转换  jsonStr->jsonObj
- *      去重
+ *
+ *      去重：
  *          为什么会产生重复数据？
  *              我们是从下单事实表中读取数据的，下单事实表由订单表、订单明细表、订单明细活动表、订单明细优惠券表四张表组成
  *              订单明细是主表，和订单表进行关联的时候，使用的是内连接
@@ -57,6 +56,8 @@ import java.util.concurrent.TimeUnit;
  *                  null
  *                  左表  右表
  *              所以我们在从下单事实表中读取数据的时候，需要过滤空消息，并去重
+ *
+ *
  *          去重前：需要按照唯一键进行分组
  *          去重方案1：状态+定时器
  *              当第一条数据到来的时候，将数据放到状态中保存起来，并注册5s后执行的定时器
@@ -269,7 +270,7 @@ public class DwsTradeSkuOrderWindow extends BaseApp {
         //TODO 6.分组
         KeyedStream<TradeSkuOrderBean, String> skuIdKeyedDS = beanDS.keyBy(TradeSkuOrderBean::getSkuId);
 
-        //TODO 7.开窗
+        //TODO 7.开窗：根据skuid对数据进行分组，定义了一个滚动时间窗口，窗口时间是0秒，每十秒一次聚合操作。
         WindowedStream<TradeSkuOrderBean, String, TimeWindow> windowDS = skuIdKeyedDS.window(TumblingProcessingTimeWindows.of(org.apache.flink.streaming.api.windowing.time.Time.seconds(10)));
 
         //TODO 8.聚合

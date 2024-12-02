@@ -26,7 +26,7 @@ public class DwsTrafficSourceKeywordPageViewWindow extends BaseSQLApp {
 
     @Override
     public void handle(StreamTableEnvironment tableEnv) {
-        //TODO 注册自定义函数到表执行环境中
+        //TODO 注册自定义函数到表执行环境中 
         tableEnv.createTemporarySystemFunction("ik_analyze", KeywordUDTF.class);
         //TODO 从页面日志事实表中读取数据 创建动态表  并指定Watermark的生成策略以及提取事件时间字段
         tableEnv.executeSql("create table page_log(\n" +

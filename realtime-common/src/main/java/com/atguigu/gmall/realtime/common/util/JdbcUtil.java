@@ -1,3 +1,4 @@
+//提供反射相关的工具
 package com.atguigu.gmall.realtime.common.util;
 
 import com.atguigu.gmall.realtime.common.constant.Constant;

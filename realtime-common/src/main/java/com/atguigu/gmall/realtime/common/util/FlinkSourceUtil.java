@@ -1,3 +1,4 @@
+//和 Kafka 交互要用到 Flink 提供的 KafkaSource 及 KafkaSink,为了提高模板代码的复用性，将 KafkaSource 的构建封装到 FlinkSourceUtil 工具类中。
 package com.atguigu.gmall.realtime.common.util;
 
 import com.atguigu.gmall.realtime.common.constant.Constant;

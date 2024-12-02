@@ -16,14 +16,17 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  *          好处：约定了模板
  *               在不改变父类核心算法骨架的前提下，每个子类都可以有自己不同的实现
  */
-public abstract class BaseApp {
-    public void start(int port, int parallelism, String ckAndGroupId, String topic) throws Exception {
+public abstract class BaseApp
+{
+    //输入：端口号 并行度 检查点 主题
+    public void start(int port, int parallelism, String ckAndGroupId, String topic) throws Exception
+    {
         //TODO 1.基本环境准备
         //1.1 指定流处理环境
         Configuration conf = new Configuration();
-        conf.setInteger("rest.port", port);
+        conf.setInteger("rest.port", port);// 设置端口号。rest.port是名字，port为端口号，
 
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);// 根据配置创建流处理环境
 
         //1.2 设置并行度
         env.setParallelism(parallelism);
@@ -54,9 +57,10 @@ public abstract class BaseApp {
         KafkaSource<String> kafkaSource = FlinkSourceUtil.getKafkaSource(topic, ckAndGroupId);
         //3.3 消费数据 封装为流
         DataStreamSource<String> kafkaStrDS
-                = env.fromSource(kafkaSource, WatermarkStrategy.noWatermarks(), "Kafka_Source");
+                = env.fromSource(kafkaSource, WatermarkStrategy.noWatermarks(), "Kafka_Source");//WatermarkStrategy.noWatermarks()是一个水印生成器，kafkaStrDS是流中的数据,
+        //formSoure的参数：1.消费者对象 2.水印生成器 3.消费者组id
         //TODO 4.处理逻辑
-        handle(env,kafkaStrDS);
+        handle(env,kafkaStrDS);//输入
         //TODO 5.提交作业
         env.execute();
     }

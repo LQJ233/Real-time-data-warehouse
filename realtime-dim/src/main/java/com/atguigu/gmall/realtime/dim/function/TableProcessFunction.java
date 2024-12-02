@@ -19,7 +19,9 @@ import java.util.*;
  * @date 2024/5/28
  * 处理主流业务数据和广播流配置数据关联后的逻辑
  */
-public class TableProcessFunction extends BroadcastProcessFunction<JSONObject, TableProcessDim, Tuple2<JSONObject,TableProcessDim>> {
+
+public class TableProcessFunction extends BroadcastProcessFunction<JSONObject, TableProcessDim, Tuple2<JSONObject,TableProcessDim>>
+{
 
     private MapStateDescriptor<String, TableProcessDim> mapStateDescriptor;
     private Map<String,TableProcessDim> configMap = new HashMap<>();
@@ -29,7 +31,8 @@ public class TableProcessFunction extends BroadcastProcessFunction<JSONObject, T
     }
 
     @Override
-    public void open(Configuration parameters) throws Exception {
+    public void open(Configuration parameters) throws Exception
+    {
         //将配置表中的配置信息预加载到程序configMap中
         Connection mySQLConnection = JdbcUtil.getMySQLConnection();
         List<TableProcessDim> tableProcessDimList = JdbcUtil.queryList(mySQLConnection, "select * from gmall2024_config.table_process_dim", TableProcessDim.class, true);
@@ -91,7 +94,8 @@ public class TableProcessFunction extends BroadcastProcessFunction<JSONObject, T
     //过滤掉不需要传递的字段
     //dataJsonObj  {"tm_name":"Redmi","create_time":"2021-12-14 00:00:00","logo_url":"555","id":1}
     //sinkColumns  id,tm_name
-    private static void deleteNotNeedColumns(JSONObject dataJsonObj, String sinkColumns) {
+    private static void deleteNotNeedColumns(JSONObject dataJsonObj, String sinkColumns)
+    {
         List<String> columnList = Arrays.asList(sinkColumns.split(","));
 
         Set<Map.Entry<String, Object>> entrySet = dataJsonObj.entrySet();

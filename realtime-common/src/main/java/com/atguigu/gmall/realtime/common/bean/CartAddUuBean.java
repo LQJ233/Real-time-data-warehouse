@@ -9,7 +9,8 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class CartAddUuBean {
+public class CartAddUuBean
+{
     // 窗口起始时间
     String stt;
     // 窗口闭合时间
